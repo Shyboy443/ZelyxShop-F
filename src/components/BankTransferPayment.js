@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Box,
   Typography,
@@ -28,16 +28,7 @@ const BankTransferPayment = ({ orderNumber, onReceiptUpload }) => {
   const [uploading, setUploading] = useState(false);
   const [expirationTime, setExpirationTime] = useState(null);
 
-  useEffect(() => {
-    if (orderNumber) {
-      fetchOrderData();
-      fetchTimeRemaining();
-      const interval = setInterval(updateLocalTimer, 1000); // Update every second
-      return () => clearInterval(interval);
-    }
-  }, [orderNumber, expirationTime, fetchOrderData, fetchTimeRemaining, updateLocalTimer]);
-
-  const fetchOrderData = async () => {
+  const fetchOrderData = useCallback(async () => {
     try {
       const response = await api.get(`/orders/${orderNumber}`);
       if (response.data.success) {
@@ -50,9 +41,9 @@ const BankTransferPayment = ({ orderNumber, onReceiptUpload }) => {
     } catch (error) {
       console.error("Error fetching order data:", error);
     }
-  };
+  }, [orderNumber]);
 
-  const fetchTimeRemaining = async () => {
+  const fetchTimeRemaining = useCallback(async () => {
     try {
       const response = await api.get(`/orders/${orderNumber}/timeout`);
       if (response.data.success) {
@@ -79,9 +70,9 @@ const BankTransferPayment = ({ orderNumber, onReceiptUpload }) => {
         setExpirationTime(parseInt(storedExpiration));
       }
     }
-  };
+  }, [orderNumber]);
 
-  const updateLocalTimer = () => {
+  const updateLocalTimer = useCallback(() => {
     // Check localStorage first for expiration time
     const storedExpiration = localStorage.getItem(
       `order_${orderNumber}_expiration`
@@ -104,7 +95,16 @@ const BankTransferPayment = ({ orderNumber, onReceiptUpload }) => {
         );
       }
     }
-  };
+  }, [orderNumber, expirationTime]);
+
+  useEffect(() => {
+    if (orderNumber) {
+      fetchOrderData();
+      fetchTimeRemaining();
+      const interval = setInterval(updateLocalTimer, 1000); // Update every second
+      return () => clearInterval(interval);
+    }
+  }, [orderNumber, fetchOrderData, fetchTimeRemaining, updateLocalTimer]);
 
   const handleReceiptUpload = (event) => {
     const file = event.target.files[0];
