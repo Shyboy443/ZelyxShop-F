@@ -94,10 +94,10 @@ const Home = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
         sx={{
-          background: (theme) => 
-            theme.palette.mode === 'dark' 
-              ? `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.secondary.dark} 100%)`
-              : `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+          background: (theme) =>
+            theme.palette.mode === "dark"
+              ? `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`
+              : `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
           color: "primary.contrastText",
           py: { xs: 8, md: 12 },
           position: "relative",
@@ -138,9 +138,14 @@ const Home = () => {
                     to="/services"
                     endIcon={<ArrowForwardIcon />}
                     sx={{
-                      bgcolor: (theme) => theme.palette.getContrastText(theme.palette.primary.main) === '#000' ? 'common.white' : 'background.paper',
-                      color: 'primary.main',
-                      '&:hover': {
+                      bgcolor: (theme) =>
+                        theme.palette.getContrastText(
+                          theme.palette.primary.main
+                        ) === "#000"
+                          ? "common.white"
+                          : "background.paper",
+                      color: "primary.main",
+                      "&:hover": {
                         bgcolor: (theme) => theme.palette.action.hover,
                       },
                     }}
@@ -151,10 +156,10 @@ const Home = () => {
                     variant="outlined"
                     size="large"
                     sx={{
-                      borderColor: 'primary.contrastText',
-                      color: 'primary.contrastText',
-                      '&:hover': {
-                        borderColor: 'primary.contrastText',
+                      borderColor: "primary.contrastText",
+                      color: "primary.contrastText",
+                      "&:hover": {
+                        borderColor: "primary.contrastText",
                         bgcolor: (theme) => theme.palette.action.hover,
                       },
                     }}
@@ -236,7 +241,15 @@ const Home = () => {
       </Container>
 
       {/* Featured Categories */}
-      <Box sx={{ bgcolor: (theme) => theme.palette.mode === 'dark' ? 'background.paper' : 'background.default', py: 8 }}>
+      <Box
+        sx={{
+          bgcolor: (theme) =>
+            theme.palette.mode === "dark"
+              ? "background.paper"
+              : "background.default",
+          py: 8,
+        }}
+      >
         <Container maxWidth="lg">
           <MotionBox
             initial={{ y: 50, opacity: 0 }}
@@ -281,7 +294,10 @@ const Home = () => {
                       background: category.image
                         ? `url(${category.image})`
                         : (theme) => {
-                            const checkerColor = theme.palette.mode === 'dark' ? '#333333' : '#f0f0f0';
+                            const checkerColor =
+                              theme.palette.mode === "dark"
+                                ? "#333333"
+                                : "#f0f0f0";
                             return `linear-gradient(45deg, ${checkerColor} 25%, transparent 25%), linear-gradient(-45deg, ${checkerColor} 25%, transparent 25%), linear-gradient(45deg, transparent 75%, ${checkerColor} 75%), linear-gradient(-45deg, transparent 75%, ${checkerColor} 75%)`;
                           },
                       backgroundSize: category.image ? "cover" : "20px 20px",
@@ -464,7 +480,9 @@ const Home = () => {
       </Container>
 
       {/* Newsletter Section */}
-      <Box sx={{ bgcolor: "primary.main", color: "primary.contrastText", py: 8 }}>
+      <Box
+        sx={{ bgcolor: "primary.main", color: "primary.contrastText", py: 8 }}
+      >
         <Container maxWidth="md">
           <MotionBox
             initial={{ y: 50, opacity: 0 }}
@@ -489,8 +507,11 @@ const Home = () => {
               variant="contained"
               size="large"
               sx={{
-                bgcolor: (theme) => theme.palette.mode === 'dark' ? 'background.paper' : 'common.white',
-                color: 'primary.main',
+                bgcolor: (theme) =>
+                  theme.palette.mode === "dark"
+                    ? "background.paper"
+                    : "common.white",
+                color: "primary.main",
                 "&:hover": {
                   bgcolor: (theme) => theme.palette.action.hover,
                 },

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Container,
@@ -27,8 +27,8 @@ import {
   CircularProgress,
   Tooltip,
   Grid,
-  useTheme
-} from '@mui/material';
+  useTheme,
+} from "@mui/material";
 import {
   Add as AddIcon,
   Search as SearchIcon,
@@ -37,19 +37,19 @@ import {
   Visibility as ViewIcon,
   Refresh as RefreshIcon,
   Star as StarIcon,
-  Image as ImageIcon
-} from '@mui/icons-material';
-import { Link as RouterLink } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { motion } from 'framer-motion';
-import { toast } from 'react-hot-toast';
+  Image as ImageIcon,
+} from "@mui/icons-material";
+import { Link as RouterLink } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { motion } from "framer-motion";
+import { toast } from "react-hot-toast";
 import {
   fetchAdminCategories,
   createAdminCategory,
   updateAdminCategory,
   deleteAdminCategory,
-  clearError
-} from '../../store/slices/categorySlice';
+  clearError,
+} from "../../store/slices/categorySlice";
 
 const MotionBox = motion(Box);
 const MotionCard = motion(Card);
@@ -57,18 +57,27 @@ const MotionCard = motion(Card);
 const Categories = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  
-  const { adminCategories, loading, error } = useSelector((state) => state.categories);
-  
-  const [searchTerm, setSearchTerm] = useState('');
-  const [deleteDialog, setDeleteDialog] = useState({ open: false, category: null });
-  const [categoryDialog, setCategoryDialog] = useState({ open: false, category: null, mode: 'create' });
+
+  const { adminCategories, loading, error } = useSelector(
+    (state) => state.categories
+  );
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [deleteDialog, setDeleteDialog] = useState({
+    open: false,
+    category: null,
+  });
+  const [categoryDialog, setCategoryDialog] = useState({
+    open: false,
+    category: null,
+    mode: "create",
+  });
   const [refreshing, setRefreshing] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    description: '',
-    image: '',
-    featured: false
+    name: "",
+    description: "",
+    image: "",
+    featured: false,
   });
   const [formErrors, setFormErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -89,13 +98,15 @@ const Categories = () => {
     setRefreshing(true);
     await loadCategories();
     setRefreshing(false);
-    toast.success('Categories refreshed');
+    toast.success("Categories refreshed");
   };
 
-  const filteredCategories = adminCategories?.filter(category =>
-    category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    category.description?.toLowerCase().includes(searchTerm.toLowerCase())
-  ) || [];
+  const filteredCategories =
+    adminCategories?.filter(
+      (category) =>
+        category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        category.description?.toLowerCase().includes(searchTerm.toLowerCase())
+    ) || [];
 
   const handleDeleteClick = (category) => {
     setDeleteDialog({ open: true, category });
@@ -104,11 +115,11 @@ const Categories = () => {
   const handleDeleteConfirm = async () => {
     try {
       await dispatch(deleteAdminCategory(deleteDialog.category._id)).unwrap();
-      toast.success('Category deleted successfully');
+      toast.success("Category deleted successfully");
       setDeleteDialog({ open: false, category: null });
       loadCategories();
     } catch (error) {
-      toast.error(error || 'Failed to delete category');
+      toast.error(error || "Failed to delete category");
     }
   };
 
@@ -118,85 +129,87 @@ const Categories = () => {
 
   const handleCreateClick = () => {
     setFormData({
-      name: '',
-      description: '',
-      image: '',
-      featured: false
+      name: "",
+      description: "",
+      image: "",
+      featured: false,
     });
     setFormErrors({});
-    setCategoryDialog({ open: true, category: null, mode: 'create' });
+    setCategoryDialog({ open: true, category: null, mode: "create" });
   };
 
   const handleEditClick = (category) => {
     setFormData({
       name: category.name,
-      description: category.description || '',
-      image: category.image || '',
-      featured: category.featured || false
+      description: category.description || "",
+      image: category.image || "",
+      featured: category.featured || false,
     });
     setFormErrors({});
-    setCategoryDialog({ open: true, category, mode: 'edit' });
+    setCategoryDialog({ open: true, category, mode: "edit" });
   };
 
   const handleCategoryDialogClose = () => {
-    setCategoryDialog({ open: false, category: null, mode: 'create' });
+    setCategoryDialog({ open: false, category: null, mode: "create" });
     setFormData({
-      name: '',
-      description: '',
-      image: '',
-      featured: false
+      name: "",
+      description: "",
+      image: "",
+      featured: false,
     });
     setFormErrors({});
   };
 
   const handleInputChange = (e) => {
     const { name, value, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: e.target.type === 'checkbox' ? checked : value
+      [name]: e.target.type === "checkbox" ? checked : value,
     }));
-    
+
     // Clear field error when user starts typing
     if (formErrors[name]) {
-      setFormErrors(prev => ({
+      setFormErrors((prev) => ({
         ...prev,
-        [name]: ''
+        [name]: "",
       }));
     }
   };
 
   const validateForm = () => {
     const errors = {};
-    
+
     if (!formData.name.trim()) {
-      errors.name = 'Service category name is required';
+      errors.name = "Service category name is required";
     }
-    
+
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
-    
+
     setSubmitting(true);
-    
+
     try {
-      if (categoryDialog.mode === 'create') {
+      if (categoryDialog.mode === "create") {
         await dispatch(createAdminCategory(formData)).unwrap();
-        toast.success('Category created successfully');
+        toast.success("Category created successfully");
       } else {
-        await dispatch(updateAdminCategory({
-          id: categoryDialog.category._id,
-          data: formData
-        })).unwrap();
-        toast.success('Category updated successfully');
+        await dispatch(
+          updateAdminCategory({
+            id: categoryDialog.category._id,
+            data: formData,
+          })
+        ).unwrap();
+        toast.success("Category updated successfully");
       }
-      
+
       handleCategoryDialogClose();
       loadCategories();
     } catch (error) {
@@ -215,14 +228,23 @@ const Categories = () => {
         transition={{ duration: 0.6 }}
         sx={{ mb: 4 }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-          <Typography variant="h3" component="h1" sx={{ fontWeight: 'bold' }}>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 2,
+          }}
+        >
+          <Typography variant="h3" component="h1" sx={{ fontWeight: "bold" }}>
             Categories
           </Typography>
-          <Box sx={{ display: 'flex', gap: 2 }}>
+          <Box sx={{ display: "flex", gap: 2 }}>
             <Button
               variant="outlined"
-              startIcon={refreshing ? <CircularProgress size={20} /> : <RefreshIcon />}
+              startIcon={
+                refreshing ? <CircularProgress size={20} /> : <RefreshIcon />
+              }
               onClick={handleRefresh}
               disabled={refreshing}
             >
@@ -237,7 +259,7 @@ const Categories = () => {
             </Button>
           </Box>
         </Box>
-        
+
         <Typography variant="body1" color="text.secondary">
           Organize your services with categories
         </Typography>
@@ -281,7 +303,7 @@ const Categories = () => {
         transition={{ duration: 0.6, delay: 0.4 }}
       >
         {loading ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
+          <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
             <CircularProgress size={60} />
           </Box>
         ) : filteredCategories.length > 0 ? (
@@ -290,14 +312,14 @@ const Categories = () => {
               <Grid item xs={12} sm={6} md={4} lg={3} key={category._id}>
                 <Card
                   sx={{
-                    height: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-4px)',
-                      boxShadow: theme.shadows[8]
-                    }
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    transition: "all 0.3s ease",
+                    "&:hover": {
+                      transform: "translateY(-4px)",
+                      boxShadow: theme.shadows[8],
+                    },
                   }}
                 >
                   {/* Category Image */}
@@ -307,18 +329,24 @@ const Categories = () => {
                       background: category.image
                         ? `url(${category.image})`
                         : `linear-gradient(135deg, ${theme.palette.primary.light}, ${theme.palette.secondary.light})`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      position: 'relative'
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      position: "relative",
                     }}
                   >
                     {!category.image && (
-                      <ImageIcon sx={{ fontSize: 60, color: 'primary.contrastText', opacity: 0.7 }} />
+                      <ImageIcon
+                        sx={{
+                          fontSize: 60,
+                          color: "primary.contrastText",
+                          opacity: 0.7,
+                        }}
+                      />
                     )}
-                    
+
                     {category.featured && (
                       <Chip
                         icon={<StarIcon />}
@@ -326,34 +354,64 @@ const Categories = () => {
                         color="primary"
                         size="small"
                         sx={{
-                          position: 'absolute',
+                          position: "absolute",
                           top: 8,
-                          right: 8
+                          right: 8,
                         }}
                       />
                     )}
                   </Box>
-                  
-                  <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                    <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold' }}>
+
+                  <CardContent
+                    sx={{
+                      flexGrow: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Typography
+                      variant="h6"
+                      gutterBottom
+                      sx={{ fontWeight: "bold" }}
+                    >
                       {category.name}
                     </Typography>
-                    
-                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2, flexGrow: 1 }}>
-                      {category.description || 'No description available'}
+
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ mb: 2, flexGrow: 1 }}
+                    >
+                      {category.description || "No description available"}
                     </Typography>
-                    
-                    <Typography variant="caption" color="text.secondary" gutterBottom>
+
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      gutterBottom
+                    >
                       Slug: {category.slug}
                     </Typography>
-                    
-                    <Typography variant="caption" color="text.secondary" gutterBottom>
-                      Created: {new Date(category.createdAt).toLocaleDateString()}
+
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      gutterBottom
+                    >
+                      Created:{" "}
+                      {new Date(category.createdAt).toLocaleDateString()}
                     </Typography>
-                    
-                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mt: 2 }}>
-                      <Box sx={{ display: 'flex', gap: 1 }}>
-        <Tooltip title="View Category">
+
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        mt: 2,
+                      }}
+                    >
+                      <Box sx={{ display: "flex", gap: 1 }}>
+                        <Tooltip title="View Category">
                           <IconButton
                             component={RouterLink}
                             to={`/services?category=${category.slug}`}
@@ -364,7 +422,7 @@ const Categories = () => {
                             <ViewIcon fontSize="small" />
                           </IconButton>
                         </Tooltip>
-                        
+
                         <Tooltip title="Edit Category">
                           <IconButton
                             onClick={() => handleEditClick(category)}
@@ -374,7 +432,7 @@ const Categories = () => {
                             <EditIcon fontSize="small" />
                           </IconButton>
                         </Tooltip>
-                        
+
                         <Tooltip title="Delete Category">
                           <IconButton
                             onClick={() => handleDeleteClick(category)}
@@ -394,15 +452,18 @@ const Categories = () => {
         ) : (
           <Card>
             <CardContent>
-              <Box sx={{ textAlign: 'center', py: 8 }}>
+              <Box sx={{ textAlign: "center", py: 8 }}>
                 <Typography variant="h6" color="text.secondary" gutterBottom>
                   No service categories found
                 </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ mb: 3 }}
+                >
                   {searchTerm
-                    ? 'Try adjusting your search'
-                    : 'Create your first service category to get started'
-                  }
+                    ? "Try adjusting your search"
+                    : "Create your first service category to get started"}
                 </Typography>
                 <Button
                   variant="contained"
@@ -426,10 +487,14 @@ const Categories = () => {
       >
         <form onSubmit={handleSubmit}>
           <DialogTitle>
-            {categoryDialog.mode === 'create' ? 'Create Category' : 'Edit Category'}
+            {categoryDialog.mode === "create"
+              ? "Create Category"
+              : "Edit Category"}
           </DialogTitle>
           <DialogContent>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3, pt: 1 }}>
+            <Box
+              sx={{ display: "flex", flexDirection: "column", gap: 3, pt: 1 }}
+            >
               <TextField
                 fullWidth
                 label="Service Category Name"
@@ -440,7 +505,7 @@ const Categories = () => {
                 helperText={formErrors.name}
                 required
               />
-              
+
               <TextField
                 fullWidth
                 label="Description"
@@ -451,7 +516,7 @@ const Categories = () => {
                 rows={3}
                 placeholder="Enter service category description..."
               />
-              
+
               <TextField
                 fullWidth
                 label="Image URL"
@@ -460,7 +525,7 @@ const Categories = () => {
                 onChange={handleInputChange}
                 placeholder="https://example.com/image.jpg"
               />
-              
+
               <FormControlLabel
                 control={
                   <Switch
@@ -475,15 +540,13 @@ const Categories = () => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCategoryDialogClose}>Cancel</Button>
-            <Button
-              type="submit"
-              variant="contained"
-              disabled={submitting}
-            >
+            <Button type="submit" variant="contained" disabled={submitting}>
               {submitting ? (
                 <CircularProgress size={24} />
+              ) : categoryDialog.mode === "create" ? (
+                "Create"
               ) : (
-                categoryDialog.mode === 'create' ? 'Create' : 'Update'
+                "Update"
               )}
             </Button>
           </DialogActions>
@@ -497,17 +560,20 @@ const Categories = () => {
         maxWidth="sm"
         fullWidth
       >
-        <DialogTitle>
-          Delete Category
-        </DialogTitle>
+        <DialogTitle>Delete Category</DialogTitle>
         <DialogContent>
           <Typography>
-            Are you sure you want to delete "{deleteDialog.category?.name}"? This action cannot be undone.
+            Are you sure you want to delete "{deleteDialog.category?.name}"?
+            This action cannot be undone.
           </Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDeleteCancel}>Cancel</Button>
-          <Button onClick={handleDeleteConfirm} color="error" variant="contained">
+          <Button
+            onClick={handleDeleteConfirm}
+            color="error"
+            variant="contained"
+          >
             Delete
           </Button>
         </DialogActions>

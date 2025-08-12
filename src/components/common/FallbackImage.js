@@ -23,7 +23,7 @@ const FallbackImage = ({
     setImageLoaded(true);
   };
 
-  const checkerColor = theme.palette.mode === 'dark' ? '#333333' : '#f0f0f0';
+  const checkerColor = theme.palette.mode === "dark" ? "#333333" : "#f0f0f0";
   const fallbackBackground = `linear-gradient(45deg, ${checkerColor} 25%, transparent 25%), linear-gradient(-45deg, ${checkerColor} 25%, transparent 25%), linear-gradient(45deg, transparent 75%, ${checkerColor} 75%), linear-gradient(-45deg, transparent 75%, ${checkerColor} 75%)`;
 
   return (

@@ -304,7 +304,10 @@ const Category = () => {
                         product.images && product.images.length > 0
                           ? `url(${product.images[0].url})`
                           : (theme) => {
-                              const checkerColor = theme.palette.mode === 'dark' ? '#333333' : '#f0f0f0';
+                              const checkerColor =
+                                theme.palette.mode === "dark"
+                                  ? "#333333"
+                                  : "#f0f0f0";
                               return `linear-gradient(45deg, ${checkerColor} 25%, transparent 25%), linear-gradient(-45deg, ${checkerColor} 25%, transparent 25%), linear-gradient(45deg, transparent 75%, ${checkerColor} 75%), linear-gradient(-45deg, transparent 75%, ${checkerColor} 75%)`;
                             },
                       backgroundSize:
@@ -428,7 +431,9 @@ const Category = () => {
 
       {/* Category Stats */}
       {currentCategory && !loading && (
-        <Box sx={{ mt: 8, p: 3, bgcolor: "background.default", borderRadius: 2 }}>
+        <Box
+          sx={{ mt: 8, p: 3, bgcolor: "background.default", borderRadius: 2 }}
+        >
           <Typography variant="h6" gutterBottom>
             Category Information
           </Typography>

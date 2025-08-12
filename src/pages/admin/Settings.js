@@ -506,7 +506,9 @@ const Settings = () => {
                   Preview
                 </Typography>
 
-                <Box sx={{ p: 2, bgcolor: "background.default", borderRadius: 1 }}>
+                <Box
+                  sx={{ p: 2, bgcolor: "background.default", borderRadius: 1 }}
+                >
                   <Typography variant="subtitle2" gutterBottom>
                     Tax Configuration:
                   </Typography>

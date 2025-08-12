@@ -95,7 +95,7 @@ const Orders = () => {
   const [terminating, setTerminating] = useState(false);
 
   const [showManualDelivery, setShowManualDelivery] = useState(false);
-  const [manualDeliveryText, setManualDeliveryText] = useState('');
+  const [manualDeliveryText, setManualDeliveryText] = useState("");
 
   // Inventory selection state
   const [availableInventory, setAvailableInventory] = useState(null);
@@ -165,7 +165,7 @@ const Orders = () => {
     setAvailableInventory(null);
     setSelectedInventory({});
     setShowManualDelivery(false);
-    setManualDeliveryText('');
+    setManualDeliveryText("");
   };
 
   const handleStatusDialogClose = () => {
@@ -200,13 +200,13 @@ const Orders = () => {
       setShowInventorySelection(true);
       await loadAvailableInventory(statusDialog.order._id);
       setShowManualDelivery(false);
-      setManualDeliveryText('');
+      setManualDeliveryText("");
     } else {
       setShowInventorySelection(false);
       setAvailableInventory(null);
       setSelectedInventory({});
       setShowManualDelivery(false);
-      setManualDeliveryText('');
+      setManualDeliveryText("");
     }
   };
 
@@ -276,7 +276,9 @@ const Orders = () => {
         }
 
         // Validate quantity requirements
-        for (const [productId, selection] of Object.entries(selectedInventory)) {
+        for (const [productId, selection] of Object.entries(
+          selectedInventory
+        )) {
           const quantityNeeded = getQuantityNeeded(productId);
           if (quantityNeeded > 1) {
             toast.warning(
@@ -299,12 +301,12 @@ const Orders = () => {
         if (showManualDelivery) {
           updateData.manualDelivery = manualDeliveryText;
         } else if (Object.keys(selectedInventory).length > 0) {
-          updateData.inventoryAssignments = Object.values(selectedInventory).map(
-            (selection) => ({
-              inventoryId: selection.inventoryId,
-              orderItemIndex: selection.orderItemIndex,
-            })
-          );
+          updateData.inventoryAssignments = Object.values(
+            selectedInventory
+          ).map((selection) => ({
+            inventoryId: selection.inventoryId,
+            orderItemIndex: selection.orderItemIndex,
+          }));
         }
       }
 
@@ -584,12 +586,12 @@ const Orders = () => {
                           <TableCell>
                             <Box>
                               {order.items.map((item, index) => (
-                                <Typography 
+                                <Typography
                                   key={index}
                                   variant="body2"
-                                  sx={{ 
+                                  sx={{
                                     display: index > 0 ? "block" : "initial",
-                                    mt: index > 0 ? 0.5 : 0
+                                    mt: index > 0 ? 0.5 : 0,
                                   }}
                                 >
                                   {item.title}
@@ -761,7 +763,7 @@ const Orders = () => {
                                 </Box>
 
                                 {/* Assigned Account & Inventory Details */}
-                                {order.status === 'delivered' && (
+                                {order.status === "delivered" && (
                                   <Box sx={{ mb: 3 }}>
                                     <Typography
                                       variant="subtitle2"
@@ -780,21 +782,43 @@ const Orders = () => {
                                           Assigned Account:
                                         </Typography>
                                         {order.assignedAccount ? (
-                                          <Box sx={{ p: 2, bgcolor: "success.light", borderRadius: 1 }}>
-                                            <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                                              {order.assignedAccount.username || order.assignedAccount.email}
+                                          <Box
+                                            sx={{
+                                              p: 2,
+                                              bgcolor: "success.light",
+                                              borderRadius: 1,
+                                            }}
+                                          >
+                                            <Typography
+                                              variant="body2"
+                                              sx={{ fontWeight: "bold" }}
+                                            >
+                                              {order.assignedAccount.username ||
+                                                order.assignedAccount.email}
                                             </Typography>
-                                            <Typography variant="caption" color="text.secondary">
-                                              {order.assignedAccount.accountType || 'Digital Account'}
+                                            <Typography
+                                              variant="caption"
+                                              color="text.secondary"
+                                            >
+                                              {order.assignedAccount
+                                                .accountType ||
+                                                "Digital Account"}
                                             </Typography>
                                             {order.assignedAccount.password && (
-                                              <Typography variant="body2" sx={{ mt: 0.5 }}>
-                                                Password: {order.assignedAccount.password}
+                                              <Typography
+                                                variant="body2"
+                                                sx={{ mt: 0.5 }}
+                                              >
+                                                Password:{" "}
+                                                {order.assignedAccount.password}
                                               </Typography>
                                             )}
                                           </Box>
                                         ) : (
-                                          <Typography variant="body2" color="text.secondary">
+                                          <Typography
+                                            variant="body2"
+                                            color="text.secondary"
+                                          >
                                             No account assigned
                                           </Typography>
                                         )}
@@ -808,31 +832,71 @@ const Orders = () => {
                                         >
                                           Inventory Assigned:
                                         </Typography>
-                                        {order.inventoryAssignments && order.inventoryAssignments.length > 0 ? (
+                                        {order.inventoryAssignments &&
+                                        order.inventoryAssignments.length >
+                                          0 ? (
                                           <Box>
-                                            {order.inventoryAssignments.map((assignment, index) => (
-                                              <Box key={index} sx={{ p: 1.5, bgcolor: "info.light", borderRadius: 1, mb: 1 }}>
-                                                <Typography variant="body2" sx={{ fontWeight: "bold" }}>
-                                                  {assignment.inventoryItem?.productTitle || 'Product'}
-                                                </Typography>
-                                                <Typography variant="caption" color="text.secondary">
-                                                  Inventory ID: {assignment.inventoryId}
-                                                </Typography>
-                                                {assignment.inventoryItem?.serialNumber && (
-                                                  <Typography variant="body2" sx={{ mt: 0.5 }}>
-                                                    Serial: {assignment.inventoryItem.serialNumber}
+                                            {order.inventoryAssignments.map(
+                                              (assignment, index) => (
+                                                <Box
+                                                  key={index}
+                                                  sx={{
+                                                    p: 1.5,
+                                                    bgcolor: "info.light",
+                                                    borderRadius: 1,
+                                                    mb: 1,
+                                                  }}
+                                                >
+                                                  <Typography
+                                                    variant="body2"
+                                                    sx={{ fontWeight: "bold" }}
+                                                  >
+                                                    {assignment.inventoryItem
+                                                      ?.productTitle ||
+                                                      "Product"}
                                                   </Typography>
-                                                )}
-                                                {assignment.inventoryItem?.credentials && (
-                                                  <Typography variant="body2" sx={{ mt: 0.5 }}>
-                                                    Credentials: {assignment.inventoryItem.credentials}
+                                                  <Typography
+                                                    variant="caption"
+                                                    color="text.secondary"
+                                                  >
+                                                    Inventory ID:{" "}
+                                                    {assignment.inventoryId}
                                                   </Typography>
-                                                )}
-                                              </Box>
-                                            ))}
+                                                  {assignment.inventoryItem
+                                                    ?.serialNumber && (
+                                                    <Typography
+                                                      variant="body2"
+                                                      sx={{ mt: 0.5 }}
+                                                    >
+                                                      Serial:{" "}
+                                                      {
+                                                        assignment.inventoryItem
+                                                          .serialNumber
+                                                      }
+                                                    </Typography>
+                                                  )}
+                                                  {assignment.inventoryItem
+                                                    ?.credentials && (
+                                                    <Typography
+                                                      variant="body2"
+                                                      sx={{ mt: 0.5 }}
+                                                    >
+                                                      Credentials:{" "}
+                                                      {
+                                                        assignment.inventoryItem
+                                                          .credentials
+                                                      }
+                                                    </Typography>
+                                                  )}
+                                                </Box>
+                                              )
+                                            )}
                                           </Box>
                                         ) : (
-                                          <Typography variant="body2" color="text.secondary">
+                                          <Typography
+                                            variant="body2"
+                                            color="text.secondary"
+                                          >
                                             No inventory assigned
                                           </Typography>
                                         )}
@@ -1047,7 +1111,12 @@ const Orders = () => {
           {newStatus === "delivered" && (
             <Box sx={{ mt: 2 }}>
               <FormControlLabel
-                control={<Switch checked={showManualDelivery} onChange={(e) => setShowManualDelivery(e.target.checked)} />}
+                control={
+                  <Switch
+                    checked={showManualDelivery}
+                    onChange={(e) => setShowManualDelivery(e.target.checked)}
+                  />
+                }
                 label="Use Manual Delivery"
               />
               {showManualDelivery && (
@@ -1074,7 +1143,14 @@ const Orders = () => {
 
               {/* Order Items Summary */}
               {statusDialog.order?.items && (
-                <Box sx={{ mb: 3, p: 2, bgcolor: "background.default", borderRadius: 1 }}>
+                <Box
+                  sx={{
+                    mb: 3,
+                    p: 2,
+                    bgcolor: "background.default",
+                    borderRadius: 1,
+                  }}
+                >
                   <Typography
                     variant="subtitle2"
                     gutterBottom

@@ -396,7 +396,14 @@ const OrderStatus = () => {
             </Box>
 
             {/* Order Details */}
-            <Box sx={{ mb: 4, p: 3, bgcolor: "background.default", borderRadius: 2 }}>
+            <Box
+              sx={{
+                mb: 4,
+                p: 3,
+                bgcolor: "background.default",
+                borderRadius: 2,
+              }}
+            >
               <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
                 Order Details
               </Typography>
@@ -423,8 +430,6 @@ const OrderStatus = () => {
                 {orderData.customer.email || orderData.customerEmail}
               </Typography>
             </Box>
-
-
 
             {isBankDeposit && currentStep !== 3 && (
               <Box
@@ -609,9 +614,9 @@ const OrderStatus = () => {
                       mb: 3,
                       p: 4,
                       background: (theme) =>
-                        theme.palette.mode === 'dark'
-                          ? `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.secondary.dark} 100%)`
-                          : `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                        theme.palette.mode === "dark"
+                          ? `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`
+                          : `linear-gradient(135deg, ${theme.palette.primary.light} 0%, ${theme.palette.primary.main} 100%)`,
                       borderRadius: 4,
                       boxShadow: (theme) => theme.shadows[8],
                       border: (theme) => `1px solid ${theme.palette.divider}`,
@@ -620,11 +625,11 @@ const OrderStatus = () => {
                     <Typography
                       variant="h4"
                       sx={{
-                        color: 'primary.contrastText',
-                        fontWeight: '700',
+                        color: "primary.contrastText",
+                        fontWeight: "700",
                         mb: 2,
-                        textShadow: '0 2px 8px rgba(0,0,0,0.3)',
-                        letterSpacing: '0.5px',
+                        textShadow: "0 2px 8px rgba(0,0,0,0.3)",
+                        letterSpacing: "0.5px",
                       }}
                     >
                       🎉 Order Complete!
@@ -632,15 +637,16 @@ const OrderStatus = () => {
                     <Typography
                       variant="h6"
                       sx={{
-                        color: 'primary.contrastText',
+                        color: "primary.contrastText",
                         opacity: 0.9,
                         mb: 4,
-                        fontSize: '1.2rem',
-                        fontWeight: '400',
+                        fontSize: "1.2rem",
+                        fontWeight: "400",
                         lineHeight: 1.6,
                       }}
                     >
-                      Your digital products are ready! Access your credentials and product details securely through the tracking page.
+                      Your digital products are ready! Access your credentials
+                      and product details securely through the tracking page.
                     </Typography>
                     <Button
                       variant="contained"
@@ -651,21 +657,21 @@ const OrderStatus = () => {
                         )
                       }
                       sx={{
-                        bgcolor: 'background.paper',
-                        color: 'primary.main',
-                        fontWeight: '600',
-                        fontSize: '1.2rem',
+                        bgcolor: "background.paper",
+                        color: "primary.main",
+                        fontWeight: "600",
+                        fontSize: "1.2rem",
                         py: 2,
                         px: 5,
                         borderRadius: 3,
                         boxShadow: (theme) => theme.shadows[6],
-                        textTransform: 'none',
-                        '&:hover': {
+                        textTransform: "none",
+                        "&:hover": {
                           bgcolor: (theme) => theme.palette.action.hover,
-                          transform: 'translateY(-3px)',
+                          transform: "translateY(-3px)",
                           boxShadow: (theme) => theme.shadows[8],
                         },
-                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                        transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
                       }}
                     >
                       🚀 View Your Products
@@ -676,14 +682,14 @@ const OrderStatus = () => {
                     size="medium"
                     onClick={() => navigate("/services")}
                     sx={{
-                      color: 'primary.contrastText',
-                      fontWeight: '500',
-                      fontSize: '1rem',
-                      '&:hover': {
-                        color: 'primary.contrastText',
+                      color: "primary.contrastText",
+                      fontWeight: "500",
+                      fontSize: "1rem",
+                      "&:hover": {
+                        color: "primary.contrastText",
                         bgcolor: (theme) => theme.palette.action.hover,
                       },
-                      transition: 'all 0.2s ease',
+                      transition: "all 0.2s ease",
                     }}
                   >
                     Continue Shopping →
@@ -697,16 +703,16 @@ const OrderStatus = () => {
                     size="large"
                     onClick={() => navigate("/services")}
                     sx={{
-                      bgcolor: 'primary.main',
+                      bgcolor: "primary.main",
                       py: 1.5,
                       px: 3,
                       borderRadius: 2,
-                      fontWeight: '600',
-                      '&:hover': {
-                        bgcolor: 'primary.dark',
-                        transform: 'translateY(-1px)',
+                      fontWeight: "600",
+                      "&:hover": {
+                        bgcolor: "primary.dark",
+                        transform: "translateY(-1px)",
                       },
-                      transition: 'all 0.2s ease',
+                      transition: "all 0.2s ease",
                     }}
                   >
                     Continue Shopping
@@ -716,19 +722,19 @@ const OrderStatus = () => {
                     size="large"
                     onClick={() => navigate("/orders")}
                     sx={{
-                      borderColor: 'primary.main',
-                      color: 'primary.main',
+                      borderColor: "primary.main",
+                      color: "primary.main",
                       py: 1.5,
                       px: 3,
                       borderRadius: 2,
-                      fontWeight: '600',
-                      '&:hover': {
-                        borderColor: 'primary.dark',
-                        color: 'primary.dark',
+                      fontWeight: "600",
+                      "&:hover": {
+                        borderColor: "primary.dark",
+                        color: "primary.dark",
                         bgcolor: (theme) => theme.palette.action.hover,
-                        transform: 'translateY(-1px)',
+                        transform: "translateY(-1px)",
                       },
-                      transition: 'all 0.2s ease',
+                      transition: "all 0.2s ease",
                     }}
                   >
                     View Orders

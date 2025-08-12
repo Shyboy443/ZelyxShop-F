@@ -621,7 +621,11 @@ const AccessTokens = () => {
                     </Alert>
                   </Grid>
                   <Grid item xs={12}>
-                    <Card sx={{ bgcolor: (theme) => theme.palette.background.paper }}>
+                    <Card
+                      sx={{
+                        bgcolor: (theme) => theme.palette.background.paper,
+                      }}
+                    >
                       <CardContent>
                         <Typography variant="h6" gutterBottom>
                           Current Usage Information

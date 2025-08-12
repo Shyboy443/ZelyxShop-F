@@ -337,7 +337,14 @@ const OrderTracking = () => {
                 </Stepper>
 
                 {/* Status Messages */}
-                <Box sx={{ mt: 3, p: 2, bgcolor: "background.default", borderRadius: 1 }}>
+                <Box
+                  sx={{
+                    mt: 3,
+                    p: 2,
+                    bgcolor: "background.default",
+                    borderRadius: 1,
+                  }}
+                >
                   {currentOrder.status === "pending" && (
                     <Typography variant="body2" color="text.secondary">
                       ⏳ Your order is awaiting payment confirmation.
@@ -434,27 +441,27 @@ const OrderTracking = () => {
                                 Features: {item.features.join(", ")}
                               </Typography>
                             )}
-                            {
-  (() => {
-    const effectiveStatus = item.delivered ? 'delivered' : item.deliveryStatus || 'pending';
-    return (
-      <Box sx={{ mt: 1 }}>
-        <Chip
-          size="small"
-          label={`Delivery: ${effectiveStatus}`}
-          color={
-            effectiveStatus === "delivered"
-              ? "success"
-              : effectiveStatus === "processing"
-              ? "primary"
-              : "default"
-          }
-          variant="outlined"
-        />
-      </Box>
-    );
-  })()
-}
+                            {(() => {
+                              const effectiveStatus = item.delivered
+                                ? "delivered"
+                                : item.deliveryStatus || "pending";
+                              return (
+                                <Box sx={{ mt: 1 }}>
+                                  <Chip
+                                    size="small"
+                                    label={`Delivery: ${effectiveStatus}`}
+                                    color={
+                                      effectiveStatus === "delivered"
+                                        ? "success"
+                                        : effectiveStatus === "processing"
+                                        ? "primary"
+                                        : "default"
+                                    }
+                                    variant="outlined"
+                                  />
+                                </Box>
+                              );
+                            })()}
                             {item.autoDelivery && (
                               <Typography
                                 variant="caption"
@@ -565,27 +572,33 @@ const OrderTracking = () => {
                                 </Typography>
                                 <Box
                                   sx={{
-                                    bgcolor: 'background.paper',
+                                    bgcolor: "background.paper",
                                     p: 3,
                                     borderRadius: 2,
-                                    border: '2px solid',
-                                    borderColor: 'success.main',
-                                    fontFamily: 'monospace',
-                                    fontSize: '1.2rem',
-                                    fontWeight: 'bold',
-                                    textAlign: 'left',
-                                    wordBreak: 'break-all',
+                                    border: "2px solid",
+                                    borderColor: "success.main",
+                                    fontFamily: "monospace",
+                                    fontSize: "1.2rem",
+                                    fontWeight: "bold",
+                                    textAlign: "left",
+                                    wordBreak: "break-all",
                                   }}
                                 >
-                                  {typeof inventoryItem.accountCredentials === 'object' ? (
-                                    Object.entries(inventoryItem.accountCredentials).map(([key, value]) => (
+                                  {typeof inventoryItem.accountCredentials ===
+                                  "object" ? (
+                                    Object.entries(
+                                      inventoryItem.accountCredentials
+                                    ).map(([key, value]) => (
                                       <Typography key={key} variant="body1">
-                                        {key.charAt(0).toUpperCase() + key.slice(1)}: {value}
+                                        {key.charAt(0).toUpperCase() +
+                                          key.slice(1)}
+                                        : {value}
                                       </Typography>
                                     ))
                                   ) : (
                                     <Typography variant="body1">
-                                      {inventoryItem.accountCredentials || "N/A"}
+                                      {inventoryItem.accountCredentials ||
+                                        "N/A"}
                                     </Typography>
                                   )}
                                 </Box>
@@ -604,11 +617,11 @@ const OrderTracking = () => {
                               </Typography>
                               <Box
                                 sx={{
-                                  bgcolor: 'background.paper',
+                                  bgcolor: "background.paper",
                                   p: 2,
                                   borderRadius: 2,
-                                  border: '1px solid',
-                                  borderColor: 'divider',
+                                  border: "1px solid",
+                                  borderColor: "divider",
                                 }}
                               >
                                 <Typography variant="body1">
@@ -684,9 +697,7 @@ const OrderTracking = () => {
                         const credentials = currentOrder.deliveredInventory
                           .map(
                             (item) =>
-                              `${
-                                item.product?.title || "Product"
-                              }:\nAccount: ${
+                              `${item.product?.title || "Product"}:\nAccount: ${
                                 item.accountCredentials?.username ||
                                 item.accountCredentials?.email ||
                                 item.accountCredentials ||

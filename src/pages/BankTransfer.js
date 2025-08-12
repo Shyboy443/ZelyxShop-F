@@ -327,7 +327,14 @@ const BankTransfer = () => {
         </Grid>
 
         {/* Important Notes */}
-        <Paper elevation={1} sx={{ mt: 4, p: 3, bgcolor: (theme) => theme.palette.background.paper }}>
+        <Paper
+          elevation={1}
+          sx={{
+            mt: 4,
+            p: 3,
+            bgcolor: (theme) => theme.palette.background.paper,
+          }}
+        >
           <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold" }}>
             Important Notes:
           </Typography>

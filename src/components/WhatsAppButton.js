@@ -33,7 +33,12 @@ const WhatsAppButton = () => {
           boxShadow: "0 4px 20px rgba(37, 211, 102, 0.4)",
         }}
       >
-        <WhatsAppIcon sx={{ color: (theme) => theme.palette.getContrastText("#25D366"), fontSize: 28 }} />
+        <WhatsAppIcon
+          sx={{
+            color: (theme) => theme.palette.getContrastText("#25D366"),
+            fontSize: 28,
+          }}
+        />
       </Fab>
     </Tooltip>
   );

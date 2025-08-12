@@ -73,6 +73,7 @@ const FilterContent = React.memo(
     formatPrice,
     selectedCurrency,
     currencyRange,
+    applyFilters,
   }) => {
     const theme = useTheme();
     return (
@@ -123,6 +124,53 @@ const FilterContent = React.memo(
                 </InputAdornment>
               ),
             }}
+          />
+        </Box>
+
+        {/* Category */}
+        <Box sx={{ mb: 2.5 }}>
+          <FormControl fullWidth size="small">
+            <InputLabel id="category-label">Category</InputLabel>
+            <Select
+              labelId="category-label"
+              label="Category"
+              value={localFilters.category || ""}
+              onChange={(e) => handleFilterChange("category", e.target.value)}
+            >
+              <MenuItem value="">
+                <em>All Categories</em>
+              </MenuItem>
+              {Array.isArray(categories) &&
+                categories.map((cat) => (
+                  <MenuItem key={cat._id} value={cat._id}>
+                    {cat.name}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        </Box>
+
+        {/* Featured & In Stock */}
+        <Box sx={{ display: "flex", gap: 1, mb: 2.5 }}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={!!localFilters.featured}
+                onChange={(e) => handleFilterChange("featured", e.target.checked)}
+                size="small"
+              />
+            }
+            label="Featured"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={!!localFilters.inStock}
+                onChange={(e) => handleFilterChange("inStock", e.target.checked)}
+                size="small"
+              />
+            }
+            label="In Stock"
           />
         </Box>
 
@@ -179,6 +227,45 @@ const FilterContent = React.memo(
           <Typography>
             {formatPrice(priceRange[1], selectedCurrency)}
           </Typography>
+        </Box>
+
+        {/* Sort Controls */}
+        <Box sx={{ display: "flex", gap: 1.5, mt: 2.5, mb: 2.5 }}>
+          <FormControl fullWidth size="small">
+            <InputLabel id="sort-by-label">Sort By</InputLabel>
+            <Select
+              labelId="sort-by-label"
+              label="Sort By"
+              value={localFilters.sortBy || "createdAt"}
+              onChange={(e) => handleFilterChange("sortBy", e.target.value)}
+            >
+              <MenuItem value="createdAt">Newest</MenuItem>
+              <MenuItem value="price">Price</MenuItem>
+              <MenuItem value="title">Name</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl fullWidth size="small">
+            <InputLabel id="sort-order-label">Order</InputLabel>
+            <Select
+              labelId="sort-order-label"
+              label="Order"
+              value={localFilters.sortOrder || "desc"}
+              onChange={(e) => handleFilterChange("sortOrder", e.target.value)}
+            >
+              <MenuItem value="desc">Descending</MenuItem>
+              <MenuItem value="asc">Ascending</MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+
+        {/* Actions */}
+        <Box sx={{ display: "flex", gap: 1, mt: 1 }}>
+          <Button variant="contained" fullWidth onClick={applyFilters}>
+            Apply
+          </Button>
+          <Button variant="text" color="inherit" onClick={clearAllFilters}>
+            Clear
+          </Button>
         </Box>
       </Box>
     );
@@ -870,6 +957,7 @@ const Services = () => {
                 formatPrice={formatPrice}
                 selectedCurrency={selectedCurrency}
                 currencyRange={currencyRange}
+                applyFilters={applyFilters}
               />
             </Paper>
           </Grid>
@@ -1105,6 +1193,7 @@ const Services = () => {
           formatPrice={formatPrice}
           selectedCurrency={selectedCurrency}
           currencyRange={currencyRange}
+          applyFilters={applyFilters}
         />
       </Drawer>
     </Container>

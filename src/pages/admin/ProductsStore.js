@@ -49,7 +49,6 @@ import {
   Delete as DeleteIcon,
   Send as SendIcon,
   Inventory as InventoryIcon,
-
   CheckCircle as CheckCircleIcon,
   Cancel as CancelIcon,
   ArrowBack as BackIcon,
@@ -92,7 +91,6 @@ const ProductsStore = () => {
   const [selectedCredentials, setSelectedCredentials] = useState({});
   const [deliveryNotes, setDeliveryNotes] = useState("");
 
-
   const [newInventoryItem, setNewInventoryItem] = useState({
     product: "",
     accountCredentials: "",
@@ -113,68 +111,71 @@ const ProductsStore = () => {
   }, [orderId, dispatch]);
 
   const fetchInventory = async () => {
-    console.log('🔄 Starting inventory fetch...');
+    console.log("🔄 Starting inventory fetch...");
     setLoading(true);
     try {
-      console.log('📡 Making API call to getInventory with params:', { limit: 100 });
+      console.log("📡 Making API call to getInventory with params:", {
+        limit: 100,
+      });
       const response = await inventoryAPI.getInventory({ limit: 100 });
-      console.log('✅ Inventory API response received:', response);
-      console.log('📊 Response data structure:', {
+      console.log("✅ Inventory API response received:", response);
+      console.log("📊 Response data structure:", {
         status: response.status,
         statusText: response.statusText,
         data: response.data,
         dataType: typeof response.data,
-        dataKeys: response.data ? Object.keys(response.data) : 'No data'
+        dataKeys: response.data ? Object.keys(response.data) : "No data",
       });
-      
+
       const inventoryData = response.data.data || [];
-      console.log('📦 Processed inventory data:', {
+      console.log("📦 Processed inventory data:", {
         length: inventoryData.length,
-        items: inventoryData.slice(0, 3) // Log first 3 items for debugging
+        items: inventoryData.slice(0, 3), // Log first 3 items for debugging
       });
-      
+
       setInventory(inventoryData);
-      console.log('✅ Inventory state updated successfully');
+      console.log("✅ Inventory state updated successfully");
     } catch (error) {
-      console.error('❌ Inventory fetch error details:', {
+      console.error("❌ Inventory fetch error details:", {
         message: error.message,
         response: error.response,
         status: error.response?.status,
         statusText: error.response?.statusText,
         data: error.response?.data,
-        config: error.config
+        config: error.config,
       });
-      
+
       if (error.response) {
-        console.error('🔍 Server response error:', {
+        console.error("🔍 Server response error:", {
           url: error.config?.url,
           method: error.config?.method,
           headers: error.config?.headers,
-          baseURL: error.config?.baseURL
+          baseURL: error.config?.baseURL,
         });
       } else if (error.request) {
-        console.error('🌐 Network error - no response received:', error.request);
+        console.error(
+          "🌐 Network error - no response received:",
+          error.request
+        );
       } else {
-        console.error('⚙️ Request setup error:', error.message);
+        console.error("⚙️ Request setup error:", error.message);
       }
-      
+
       toast.error(`Failed to fetch inventory: ${error.message}`);
     } finally {
       setLoading(false);
-      console.log('🏁 Inventory fetch completed');
+      console.log("🏁 Inventory fetch completed");
     }
   };
 
-
-
   const fetchOrderDetails = async () => {
-    console.log('📋 Fetching order details for orderId:', orderId);
+    console.log("📋 Fetching order details for orderId:", orderId);
     try {
       const response = await api.get(`/admin/orders/${orderId}`);
-      console.log('✅ Order details response:', response.data);
+      console.log("✅ Order details response:", response.data);
       setOrderDetails(response.data.data);
     } catch (error) {
-      console.error('❌ Failed to fetch order details:', error);
+      console.error("❌ Failed to fetch order details:", error);
       toast.error(`Failed to fetch order details: ${error.message}`);
     }
   };
@@ -185,7 +186,7 @@ const ProductsStore = () => {
       return;
     }
 
-    console.log('➕ Adding new inventory item:', newInventoryItem);
+    console.log("➕ Adding new inventory item:", newInventoryItem);
     try {
       const response = await inventoryAPI.addInventory({
         product: newInventoryItem.product,
@@ -193,14 +194,19 @@ const ProductsStore = () => {
         notes: newInventoryItem.notes,
         maxAssignments: newInventoryItem.maxAssignments,
       });
-      
-      console.log('✅ Add inventory response:', response.data);
+
+      console.log("✅ Add inventory response:", response.data);
       setInventory((prev) => [...prev, response.data.data]);
-      setNewInventoryItem({ product: "", accountCredentials: "", notes: "", maxAssignments: 1 });
+      setNewInventoryItem({
+        product: "",
+        accountCredentials: "",
+        notes: "",
+        maxAssignments: 1,
+      });
       setOpenAddDialog(false);
       toast.success("Inventory item added successfully");
     } catch (error) {
-      console.error('❌ Add inventory error:', error);
+      console.error("❌ Add inventory error:", error);
       toast.error(`Failed to add inventory item: ${error.message}`);
     }
   };
@@ -220,7 +226,7 @@ const ProductsStore = () => {
       ...item,
       accountCredentials: item.accountCredentials,
       notes: item.notes || "",
-      maxAssignments: item.maxAssignments || 1
+      maxAssignments: item.maxAssignments || 1,
     });
     setOpenEditDialog(true);
   };
@@ -231,7 +237,11 @@ const ProductsStore = () => {
       return;
     }
 
-    if (!editingItem.maxAssignments || editingItem.maxAssignments < 1 || editingItem.maxAssignments > 100) {
+    if (
+      !editingItem.maxAssignments ||
+      editingItem.maxAssignments < 1 ||
+      editingItem.maxAssignments > 100
+    ) {
       toast.error("Maximum assignments must be between 1 and 100");
       return;
     }
@@ -240,24 +250,26 @@ const ProductsStore = () => {
       const response = await inventoryAPI.updateInventory(editingItem._id, {
         accountCredentials: editingItem.accountCredentials,
         notes: editingItem.notes,
-        maxAssignments: editingItem.maxAssignments
+        maxAssignments: editingItem.maxAssignments,
       });
-      
-      setInventory((prev) => 
-        prev.map((item) => 
-          item._id === editingItem._id 
+
+      setInventory((prev) =>
+        prev.map((item) =>
+          item._id === editingItem._id
             ? { ...item, ...response.data.data }
             : item
         )
       );
-      
+
       setOpenEditDialog(false);
       setEditingItem(null);
       toast.success("Inventory item updated successfully");
     } catch (error) {
-      console.error('Update inventory error:', error);
+      console.error("Update inventory error:", error);
       if (error.response?.status === 403) {
-        toast.error(error.response.data.message || "Cannot update expired inventory item");
+        toast.error(
+          error.response.data.message || "Cannot update expired inventory item"
+        );
       } else {
         toast.error(`Failed to update inventory item: ${error.message}`);
       }
@@ -313,9 +325,9 @@ const ProductsStore = () => {
       setLoading(true);
 
       // Create inventory assignments instead of directly updating status
-      const inventoryAssignments = selectedItems.map(itemId => ({
+      const inventoryAssignments = selectedItems.map((itemId) => ({
         inventoryId: itemId,
-        orderItemIndex: 0 // You may need to map this properly based on your order structure
+        orderItemIndex: 0, // You may need to map this properly based on your order structure
       }));
 
       // Update order status with inventory assignments
@@ -368,8 +380,6 @@ const ProductsStore = () => {
       setLoading(false);
     }
   };
-
-
 
   const getInventoryStats = () => {
     // Add safety checks to prevent undefined errors
@@ -444,7 +454,6 @@ const ProductsStore = () => {
           <Box sx={{ display: "flex", gap: 2 }}>
             {!orderId && (
               <>
-
                 <Button
                   variant="contained"
                   startIcon={<AddIcon />}
@@ -615,8 +624,6 @@ const ProductsStore = () => {
         </Grid>
       </Grid>
 
-
-
       {/* Inventory Table */}
       <MotionCard
         initial={{ opacity: 0, y: 20 }}
@@ -636,15 +643,15 @@ const ProductsStore = () => {
             <TableContainer>
               <Table>
                 <TableHead>
-                    <TableRow>
-                      <TableCell>Product</TableCell>
-                      <TableCell>Credentials</TableCell>
-                      <TableCell>Status</TableCell>
-                      <TableCell>Assignments</TableCell>
-                      <TableCell>Created</TableCell>
-                      <TableCell>Actions</TableCell>
-                    </TableRow>
-                  </TableHead>
+                  <TableRow>
+                    <TableCell>Product</TableCell>
+                    <TableCell>Credentials</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell>Assignments</TableCell>
+                    <TableCell>Created</TableCell>
+                    <TableCell>Actions</TableCell>
+                  </TableRow>
+                </TableHead>
                 <TableBody>
                   {inventory
                     .filter((item) => item && typeof item === "object")
@@ -681,10 +688,14 @@ const ProductsStore = () => {
                         </TableCell>
                         <TableCell>
                           <Typography variant="body2">
-                            {item.assignmentCount || 0} / {item.maxAssignments || 1}
+                            {item.assignmentCount || 0} /{" "}
+                            {item.maxAssignments || 1}
                           </Typography>
                           <Typography variant="caption" color="text.secondary">
-                            {(item.assignmentCount || 0) >= (item.maxAssignments || 1) ? "Full" : "Available"}
+                            {(item.assignmentCount || 0) >=
+                            (item.maxAssignments || 1)
+                              ? "Full"
+                              : "Available"}
                           </Typography>
                         </TableCell>
                         <TableCell>
@@ -836,8 +847,6 @@ const ProductsStore = () => {
           </Button>
         </DialogActions>
       </Dialog>
-
-
 
       {/* Order Delivery Dialog */}
       <Dialog
@@ -1005,7 +1014,7 @@ const ProductsStore = () => {
                   helperText="Product cannot be changed"
                 />
               </Grid>
-              
+
               <Grid item xs={12}>
                 <TextField
                   fullWidth
@@ -1060,16 +1069,27 @@ const ProductsStore = () => {
               </Grid>
 
               <Grid item xs={12}>
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1, p: 2, bgcolor: "background.default", borderRadius: 1 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    p: 2,
+                    bgcolor: "background.default",
+                    borderRadius: 1,
+                  }}
+                >
                   <Typography variant="body2" color="text.secondary">
                     <strong>Status:</strong> {editingItem.status}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    <strong>Created:</strong> {new Date(editingItem.createdAt).toLocaleDateString()}
+                    <strong>Created:</strong>{" "}
+                    {new Date(editingItem.createdAt).toLocaleDateString()}
                   </Typography>
                   {editingItem.deliveredAt && (
                     <Typography variant="body2" color="text.secondary">
-                      <strong>Delivered:</strong> {new Date(editingItem.deliveredAt).toLocaleDateString()}
+                      <strong>Delivered:</strong>{" "}
+                      {new Date(editingItem.deliveredAt).toLocaleDateString()}
                     </Typography>
                   )}
                 </Box>
@@ -1078,7 +1098,7 @@ const ProductsStore = () => {
           )}
         </DialogContent>
         <DialogActions>
-          <Button 
+          <Button
             onClick={() => {
               setOpenEditDialog(false);
               setEditingItem(null);
@@ -1086,8 +1106,8 @@ const ProductsStore = () => {
           >
             Cancel
           </Button>
-          <Button 
-            onClick={handleUpdateInventoryItem} 
+          <Button
+            onClick={handleUpdateInventoryItem}
             variant="contained"
             startIcon={<EditIcon />}
           >
