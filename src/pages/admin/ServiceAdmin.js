@@ -29,7 +29,6 @@ import {
   Alert,
   CircularProgress,
   Tooltip,
-  useTheme,
   Switch,
   FormControlLabel,
 } from "@mui/material";
