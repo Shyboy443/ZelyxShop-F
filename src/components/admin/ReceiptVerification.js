@@ -433,10 +433,10 @@ const ReceiptVerification = () => {
                   {selectedOrder.receipt.toLowerCase().endsWith(".pdf") ? (
                     <Box>
                       <iframe
-                        src={`http://localhost:5000/${selectedOrder.receipt.replace(
-                          /\\/g,
-                          "/"
-                        )}`}
+                        src={`${process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:5000'}/${selectedOrder.receipt.replace(
+                           /\\/g,
+                           "/"
+                         )}`}
                         width="100%"
                         height="400px"
                         style={{
@@ -451,10 +451,10 @@ const ReceiptVerification = () => {
                         sx={{ mt: 1 }}
                         onClick={() =>
                           window.open(
-                            `http://localhost:5000/${selectedOrder.receipt.replace(
-                              /\\/g,
-                              "/"
-                            )}`,
+                            `${process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:5000'}/${selectedOrder.receipt.replace(
+                               /\\/g,
+                               "/"
+                             )}`,
                             "_blank"
                           )
                         }
@@ -464,10 +464,10 @@ const ReceiptVerification = () => {
                     </Box>
                   ) : (
                     <img
-                      src={`http://localhost:5000/${selectedOrder.receipt.replace(
-                        /\\/g,
-                        "/"
-                      )}`}
+                      src={`${process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:5000'}/${selectedOrder.receipt.replace(
+                         /\\/g,
+                         "/"
+                       )}`}
                       alt="Receipt"
                       style={{
                         maxWidth: "100%",
@@ -478,7 +478,7 @@ const ReceiptVerification = () => {
                       onError={(e) => {
                         console.error(
                           "Failed to load receipt image:",
-                          `http://localhost:5000/${selectedOrder.receipt}`
+                          `${process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:5000'}/${selectedOrder.receipt}`
                         );
                         e.target.style.display = "none";
                         e.target.nextSibling.style.display = "block";
