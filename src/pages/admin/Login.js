@@ -280,10 +280,10 @@ const Login = () => {
               }}
             >
               <Typography variant="body2" color="text.secondary" gutterBottom>
-                <strong>Email:</strong> admin@zelyx.shop
+                <strong>Email:</strong> {process.env.REACT_APP_DEMO_ADMIN_EMAIL || 'admin@zelyx.shop'}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                <strong>Password:</strong> admin123
+                <strong>Password:</strong> {process.env.REACT_APP_DEMO_ADMIN_PASSWORD || 'admin123'}
               </Typography>
             </Box>
           </CardContent>
