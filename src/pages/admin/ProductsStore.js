@@ -30,18 +30,7 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Tabs,
-  Tab,
-  Badge,
-  Divider,
-  Stepper,
-  Step,
-  StepLabel,
-  StepContent,
-  Snackbar,
-  Tooltip,
-  LinearProgress,
-  Avatar,
+
 } from "@mui/material";
 import {
   Add as AddIcon,
@@ -50,7 +39,7 @@ import {
   Send as SendIcon,
   Inventory as InventoryIcon,
   CheckCircle as CheckCircleIcon,
-  Cancel as CancelIcon,
+
   ArrowBack as BackIcon,
   Assignment as OrderIcon,
   Email as EmailIcon,
@@ -78,9 +67,7 @@ const ProductsStore = () => {
   const urlParams = new URLSearchParams(location.search);
   const orderId = urlParams.get("orderId");
 
-  const [tabValue, setTabValue] = useState(0);
   const [inventory, setInventory] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState("");
   const [openAddDialog, setOpenAddDialog] = useState(false);
 
   const [openOrderDeliveryDialog, setOpenOrderDeliveryDialog] = useState(false);
@@ -344,16 +331,6 @@ const ProductsStore = () => {
       });
 
       // Send delivery email with credentials
-      const selectedInventoryItems = inventory.filter(
-        (item) => item && selectedItems.includes(item._id)
-      );
-      const credentialsText = selectedInventoryItems
-        .map(
-          (item) =>
-            `Product: ${item.product?.title}\nCredentials: ${item.accountCredentials}`
-        )
-        .join("\n\n");
-
       // Here you would typically send an email to the customer
       // For now, we'll just show a success message
 
@@ -402,11 +379,7 @@ const ProductsStore = () => {
 
   const stats = getInventoryStats();
 
-  const TabPanel = ({ children, value, index }) => (
-    <div hidden={value !== index}>
-      {value === index && <Box sx={{ py: 3 }}>{children}</Box>}
-    </div>
-  );
+
 
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
