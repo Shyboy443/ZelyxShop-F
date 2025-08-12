@@ -429,7 +429,7 @@ const Settings = () => {
                               e.target.value
                             )
                           }
-                          helperText="OAuth redirect URI (e.g., http://localhost:3000/auth/callback)"
+                          helperText="OAuth redirect URI (e.g., https://zelyx.shop/auth/callback)"
                         />
                       </Grid>
                     </Grid>

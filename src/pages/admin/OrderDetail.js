@@ -447,7 +447,7 @@ const OrderDetail = () => {
                     </Typography>
                     <Box sx={{ mt: 1 }}>
                       <img
-                        src={`${process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:5000'}/${order.receipt}`}
+                        src={`${process.env.REACT_APP_API_URL?.replace('/api', '')}/${order.receipt}`}
                         alt="Payment Receipt"
                         style={{
                           maxWidth: "300px",

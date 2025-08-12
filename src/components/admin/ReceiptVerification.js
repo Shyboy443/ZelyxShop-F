@@ -433,10 +433,10 @@ const ReceiptVerification = () => {
                   {selectedOrder.receipt.toLowerCase().endsWith(".pdf") ? (
                     <Box>
                       <iframe
-                        src={`${process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:5000'}/${selectedOrder.receipt.replace(
-                           /\\/g,
-                           "/"
-                         )}`}
+                        src={`${process.env.REACT_APP_API_URL?.replace('/api', '')}/${selectedOrder.receipt.replace(
+                         /\\/g,
+                         "/"
+                       )}`}
                         width="100%"
                         height="400px"
                         style={{
@@ -451,8 +451,8 @@ const ReceiptVerification = () => {
                         sx={{ mt: 1 }}
                         onClick={() =>
                           window.open(
-                            `${process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:5000'}/${selectedOrder.receipt.replace(
-                               /\\/g,
+                            `${process.env.REACT_APP_API_URL?.replace('/api', '')}/${selectedOrder.receipt.replace(
+                                 /\\/g,
                                "/"
                              )}`,
                             "_blank"
@@ -464,7 +464,7 @@ const ReceiptVerification = () => {
                     </Box>
                   ) : (
                     <img
-                      src={`${process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:5000'}/${selectedOrder.receipt.replace(
+                      src={`${process.env.REACT_APP_API_URL?.replace('/api', '')}/${selectedOrder.receipt.replace(
                          /\\/g,
                          "/"
                        )}`}
@@ -478,7 +478,7 @@ const ReceiptVerification = () => {
                       onError={(e) => {
                         console.error(
                           "Failed to load receipt image:",
-                          `${process.env.REACT_APP_API_URL?.replace('/api', '') || 'http://localhost:5000'}/${selectedOrder.receipt}`
+                          `${process.env.REACT_APP_API_URL?.replace('/api', '')}/${selectedOrder.receipt}`
                         );
                         e.target.style.display = "none";
                         e.target.nextSibling.style.display = "block";
