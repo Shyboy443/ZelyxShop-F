@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -85,6 +85,18 @@ const ProductsStore = () => {
     maxAssignments: 1,
   });
 
+  const fetchOrderDetails = useCallback(async () => {
+    console.log("📋 Fetching order details for orderId:", orderId);
+    try {
+      const response = await api.get(`/admin/orders/${orderId}`);
+      console.log("✅ Order details response:", response.data);
+      setOrderDetails(response.data.data);
+    } catch (error) {
+      console.error("❌ Failed to fetch order details:", error);
+      toast.error(`Failed to fetch order details: ${error.message}`);
+    }
+  }, [orderId]);
+
   useEffect(() => {
     fetchInventory();
 
@@ -95,7 +107,7 @@ const ProductsStore = () => {
       fetchOrderDetails();
       setOpenOrderDeliveryDialog(true);
     }
-  }, [orderId, dispatch]);
+  }, [orderId, dispatch, fetchOrderDetails]);
 
   const fetchInventory = async () => {
     console.log("🔄 Starting inventory fetch...");
@@ -152,18 +164,6 @@ const ProductsStore = () => {
     } finally {
       setLoading(false);
       console.log("🏁 Inventory fetch completed");
-    }
-  };
-
-  const fetchOrderDetails = async () => {
-    console.log("📋 Fetching order details for orderId:", orderId);
-    try {
-      const response = await api.get(`/admin/orders/${orderId}`);
-      console.log("✅ Order details response:", response.data);
-      setOrderDetails(response.data.data);
-    } catch (error) {
-      console.error("❌ Failed to fetch order details:", error);
-      toast.error(`Failed to fetch order details: ${error.message}`);
     }
   };
 

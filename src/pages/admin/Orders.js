@@ -36,7 +36,6 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  ListItemSecondaryAction,
   Radio,
   RadioGroup,
   FormControlLabel,
@@ -45,7 +44,6 @@ import {
 import {
   Search as SearchIcon,
   Refresh as RefreshIcon,
-  Visibility as VisibilityIcon,
   Visibility as ViewIcon,
   ExpandMore as ExpandMoreIcon,
   ExpandLess as ExpandLessIcon,
@@ -276,7 +274,7 @@ const Orders = () => {
         }
 
         // Validate quantity requirements
-        for (const [productId, selection] of Object.entries(
+        for (const [productId, _selection] of Object.entries(
           selectedInventory
         )) {
           const quantityNeeded = getQuantityNeeded(productId);
@@ -322,10 +320,7 @@ const Orders = () => {
     }
   };
 
-  const handleTerminateClick = (order) => {
-    setTerminateDialog({ open: true, order });
-    setTerminateReason("");
-  };
+
 
   const handleTerminateDialogClose = () => {
     setTerminateDialog({ open: false, order: null });
@@ -368,17 +363,8 @@ const Orders = () => {
     }
   };
 
-  const formatTimeRemaining = (timeRemaining) => {
-    if (!timeRemaining || !timeRemaining.timeRemainingMs) return "Expired";
 
-    const ms = timeRemaining.timeRemainingMs;
-    if (ms <= 0) return "Expired";
 
-    const hours = Math.floor(ms / (1000 * 60 * 60));
-    const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-
-    return `${hours}h ${minutes}m`;
-  };
 
   const getStatusColor = (status) => {
     const statusObj = orderStatuses.find(

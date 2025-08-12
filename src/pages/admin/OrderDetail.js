@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Box,
@@ -28,7 +28,6 @@ import {
   MenuItem,
   Alert,
   CircularProgress,
-  Divider,
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -43,12 +42,9 @@ import {
   Send as SendIcon,
   Inventory as InventoryIcon,
   LocalShipping as DeliveryIcon,
-  Email as EmailIcon,
   ContentCopy as CopyIcon,
   ExpandMore as ExpandMoreIcon,
   CheckCircle as CheckIcon,
-
-  Refresh as RefreshIcon,
 } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import { toast } from "react-hot-toast";
@@ -98,11 +94,7 @@ const OrderDetail = () => {
     { value: "failed", label: "Failed", color: "error" },
   ];
 
-  useEffect(() => {
-    loadOrderDetails();
-  }, [id]);
-
-  const loadOrderDetails = async () => {
+  const loadOrderDetails = useCallback(async () => {
     setLoading(true);
     try {
       const [orderResponse, inventoryResponse, autoDeliveryResponse] =
@@ -125,7 +117,11 @@ const OrderDetail = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [id, navigate]);
+
+  useEffect(() => {
+    loadOrderDetails();
+  }, [loadOrderDetails]);
 
   const handleStatusUpdate = async () => {
     if (!newStatus || newStatus === order.status) {

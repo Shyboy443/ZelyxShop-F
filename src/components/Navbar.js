@@ -20,12 +20,10 @@ import {
   FormControl,
   InputLabel,
   ListItemIcon,
-  Badge,
 } from "@mui/material";
 import {
   Menu as MenuIcon,
   Close as CloseIcon,
-  ShoppingBag as ShoppingBagIcon,
   Category as CategoryIcon,
   CurrencyExchange as CurrencyIcon,
   Search as SearchIcon,

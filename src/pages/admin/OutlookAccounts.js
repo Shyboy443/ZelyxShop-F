@@ -11,7 +11,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
   Chip,
   IconButton,
   Dialog,
@@ -19,10 +18,6 @@ import {
   DialogContent,
   DialogActions,
   TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Switch,
   FormControlLabel,
   Grid,
@@ -30,31 +25,26 @@ import {
   Snackbar,
   Tooltip,
   LinearProgress,
-  Divider,
   List,
   ListItem,
   ListItemText,
-  ListItemIcon,
 } from "@mui/material";
 import {
   Add as AddIcon,
-  Edit as EditIcon,
   Delete as DeleteIcon,
   Refresh as RefreshIcon,
   Sync as SyncIcon,
   CheckCircle as CheckCircleIcon,
   Error as ErrorIcon,
-  Warning as WarningIcon,
   Email as EmailIcon,
   Settings as SettingsIcon,
-  Timeline as TimelineIcon,
   Assessment as AssessmentIcon,
 } from "@mui/icons-material";
 // import { format } from 'date-fns';
 
 const OutlookAccounts = () => {
   const [accounts, setAccounts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [openDialog, setOpenDialog] = useState(false);

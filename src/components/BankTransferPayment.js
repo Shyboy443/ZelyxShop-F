@@ -35,7 +35,7 @@ const BankTransferPayment = ({ orderNumber, onReceiptUpload }) => {
       const interval = setInterval(updateLocalTimer, 1000); // Update every second
       return () => clearInterval(interval);
     }
-  }, [orderNumber, expirationTime]);
+  }, [orderNumber, expirationTime, fetchOrderData, fetchTimeRemaining, updateLocalTimer]);
 
   const fetchOrderData = async () => {
     try {

@@ -4,7 +4,6 @@ import {
   CircularProgress,
   Box,
   Typography,
-  Fade,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { selectGlobalLoading } from "../store/slices/uiSlice";
