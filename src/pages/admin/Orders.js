@@ -274,7 +274,7 @@ const Orders = () => {
         }
 
         // Validate quantity requirements
-        for (const [productId, _selection] of Object.entries(
+        for (const [productId] of Object.entries(
           selectedInventory
         )) {
           const quantityNeeded = getQuantityNeeded(productId);

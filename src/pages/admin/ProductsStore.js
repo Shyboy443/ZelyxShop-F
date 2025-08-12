@@ -97,19 +97,7 @@ const ProductsStore = () => {
     }
   }, [orderId]);
 
-  useEffect(() => {
-    fetchInventory();
-
-    dispatch(fetchAdminProducts()); // Fetch products for inventory management
-
-    // If orderId is present, fetch order details and show delivery dialog
-    if (orderId) {
-      fetchOrderDetails();
-      setOpenOrderDeliveryDialog(true);
-    }
-  }, [orderId, dispatch, fetchOrderDetails]);
-
-  const fetchInventory = async () => {
+  const fetchInventory = useCallback(async () => {
     console.log("🔄 Starting inventory fetch...");
     setLoading(true);
     try {
@@ -165,7 +153,19 @@ const ProductsStore = () => {
       setLoading(false);
       console.log("🏁 Inventory fetch completed");
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchInventory();
+
+    dispatch(fetchAdminProducts()); // Fetch products for inventory management
+
+    // If orderId is present, fetch order details and show delivery dialog
+    if (orderId) {
+      fetchOrderDetails();
+      setOpenOrderDeliveryDialog(true);
+    }
+  }, [orderId, dispatch, fetchOrderDetails, fetchInventory]);
 
   const handleAddInventoryItem = async () => {
     if (!newInventoryItem.product || !newInventoryItem.accountCredentials) {
